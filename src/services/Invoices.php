@@ -37,14 +37,14 @@ class Invoices extends Component
 
             return false;
         }
-        
+
         $invoice = new Invoice;
         $invoice->orderId = $order->id;
 
         $invoice->invoiceId = (Invoice::find()->orderBy('invoiceId desc')->type($type)->one()->invoiceId ?? 0)+1;
         $invoice->invoiceNumber = Craft::$app->getView()->renderObjectTemplate(CommerceInvoices::getInstance()->getSettings()->invoiceNumberFormat, $invoice);
-        $invoice->billingAddressSnapshot = $order->billingAddress->toArray();
-        $invoice->shippingAddressSnapshot = $order->shippingAddress->toArray();
+        $invoice->billingAddressSnapshot = $order->billingAddress ? $order->billingAddress->toArray() : null;
+        $invoice->shippingAddressSnapshot = $order->shippingAddress ? $order->shippingAddress->toArray() : null;
         $invoice->email = $order->email;
         $invoice->type = $type;
         $invoice->sent = !$invoice->getIsCredit(); // Send invoices by default

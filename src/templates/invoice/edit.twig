@@ -93,23 +93,31 @@
         {% set strong = ['businessName'] %}
         <div class="flex-col flex-grow">
             <strong>{{ 'Billing address'|t('commerce-invoices') }}</strong>
-            <br>
-            {% for key in fields if key in invoice.billingAddress.addressLines|keys %}
-                <br>
-                {% if key in strong %}<strong>{% endif %}
-                    {{ invoice.billingAddress.addressLines[key] }}
-                {% if key in strong %}</strong>{% endif %}
-            {% endfor %}
+			<br>
+			{% if invoice.billingAddress %}
+	            {% for key in fields if key in invoice.billingAddress.addressLines|keys %}
+	                <br>
+	                {% if key in strong %}<strong>{% endif %}
+	                    {{ invoice.billingAddress.addressLines[key] }}
+	                {% if key in strong %}</strong>{% endif %}
+	            {% endfor %}
+			{% else %}
+				{{ 'Not available'|t('commerce-invoices') }}
+			{% endif %}
         </div>
         <div class="flex-col flex-grow border-left pl-4">
-            <strong>{{ 'Shipping address'|t('commerce-invoices') }}</strong>
-            <br>
-            {% for key in fields if key in invoice.shippingAddress.addressLines|keys %}
-                <br>
-                {% if key in strong %}<strong>{% endif %}
-                {{ invoice.billingAddress.addressLines[key] }}
-                {% if key in strong %}</strong>{% endif %}
-            {% endfor %}
+			<strong>{{ 'Shipping address'|t('commerce-invoices') }}</strong>
+			<br>
+			{% if invoice.shippingAddress %}
+	            {% for key in fields if key in invoice.shippingAddress.addressLines|keys %}
+	                <br>
+	                {% if key in strong %}<strong>{% endif %}
+	                {{ invoice.billingAddress.addressLines[key] }}
+	                {% if key in strong %}</strong>{% endif %}
+	            {% endfor %}
+			{% else %}
+				{{ 'Not available'|t('commerce-invoices') }}
+			{% endif %}
         </div>
     </div>
     <hr>
