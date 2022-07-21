@@ -115,12 +115,11 @@ class Install extends Migration
      */
     protected function addForeignKeys()
     {
-
-        $this->addForeignKey(null,Table::INVOICES, 'id', '{{%elements}}', 'id');
-        $this->addForeignKey(null, Table::INVOICES, 'orderId', CommerceTable::ORDERS, 'id',);
-        $this->addForeignKey(null,Table::INVOICE_ROWS, 'invoiceId', Table::INVOICES, 'id');
-        $this->addForeignKey(null, Table::INVOICE_ROWS, 'taxCategoryId', CommerceTable::TAXCATEGORIES, ['id']);
-        $this->addForeignKey(null, Table::INVOICE_ROWS, 'lineItemId', CommerceTable::LINEITEMS, ['id'], null, null);
+		$this->addForeignKey(null, Table::INVOICES, 'id', '{{%elements}}', 'id', 'cascade', 'cascade');
+		$this->addForeignKey(null, Table::INVOICES, 'orderId', CommerceTable::ORDERS, 'id', 'set null', 'cascade');
+		$this->addForeignKey(null, Table::INVOICE_ROWS, 'invoiceId', Table::INVOICES, 'id', 'cascade', 'cascade');
+		$this->addForeignKey(null, Table::INVOICE_ROWS, 'taxCategoryId', CommerceTable::TAXCATEGORIES, 'id', 'set null', 'cascade');
+		$this->addForeignKey(null, Table::INVOICE_ROWS, 'lineItemId', CommerceTable::LINEITEMS, 'id', 'set null', 'cascade');
     }
 
     /**
