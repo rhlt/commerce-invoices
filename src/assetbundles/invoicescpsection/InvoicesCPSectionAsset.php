@@ -4,7 +4,7 @@
  *
  * A pdf of an orders does not equal an invoice, invoices should be: Immutable, sequential in order.  Commerce Invoices allows you to create moment-in-time snapshots of a order to create a invoice or credit invoice
  *
- * @link      wndr.digital
+ * @link	  wndr.digital
  * @copyright Copyright (c) 2021 Len van Essen
  */
 
@@ -15,31 +15,31 @@ use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
 /**
- * @author    Len van Essen
+ * @author	Len van Essen
  * @package   CommerceInvoices
- * @since     1.0.0
+ * @since	 1.0.0
  */
 class InvoicesCPSectionAsset extends AssetBundle
 {
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        $this->sourcePath = "@lenvanessen/commerce/invoices/assetbundles/invoicescpsection/dist";
+	/**
+	 * @inheritdoc
+	 */
+	public function init()
+	{
+		$this->sourcePath = "@lenvanessen/commerce/invoices/assetbundles/invoicescpsection/dist";
 
-        $this->depends = [
-            CpAsset::class,
-        ];
+		$this->depends = [
+			CpAsset::class,
+		];
 
-        $this->js = [
-            'js/Invoices.js',
-        ];
+		$this->js = [
+			'js/Invoices.js',
+		];
 
-        $this->css = [
-            'css/Invoices.css',
-        ];
+		$this->css = [
+			'css/Invoices.css',
+		];
 
-        parent::init();
-    }
+		parent::init();
+	}
 }

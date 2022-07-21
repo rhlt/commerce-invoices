@@ -4,7 +4,7 @@
  *
  * A pdf of an orders does not equal an invoice, invoices should be: Immutable, sequential in order.  Commerce Invoices allows you to create moment-in-time snapshots of a order to create a invoice or credit invoice
  *
- * @link      wndr.digital
+ * @link	  wndr.digital
  * @copyright Copyright (c) 2021 Len van Essen
  */
 
@@ -22,13 +22,13 @@
  * you do for 'general.php'
  */
 return [
-//    "invoiceNumberFormat" => "{{object.dateCompleted|date('Y')}}-{{'%05d'|format(object.invoiceId) }}",
+//	"invoiceNumberFormat" => "{{object.dateCompleted|date('Y')}}-{{'%05d'|format(object.invoiceId) }}",
 //
-//    "automaticallyCreateOrderStatusId" => null,
+//	"automaticallyCreateOrderStatusId" => null,
 
-//    "invoiceEmailId" => 0, // 0 = Don't send email
+//	"invoiceEmailId" => 0, // 0 = Don't send email
 
-//    "creditEmailId" => 0, // 0 = Don't send email
+//	"creditEmailId" => 0, // 0 = Don't send email
 
-//    "pdfPath" => ''
+//	"pdfPath" => ''
 ];

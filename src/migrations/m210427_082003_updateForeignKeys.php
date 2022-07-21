@@ -13,12 +13,12 @@ use lenvanessen\commerce\invoices\db\Table;
  */
 class m210427_082003_updateForeignKeys extends Migration
 {
-    /**
-     * @inheritdoc
-     */
+	/**
+	 * @inheritdoc
+	 */
 
-    public function safeUp()
-    {
+	public function safeUp()
+	{
 
 		MigrationHelper::dropForeignKeyIfExists(Table::INVOICES, 'id', $this);
 		MigrationHelper::dropForeignKeyIfExists(Table::INVOICES, 'orderId', $this);
@@ -31,14 +31,14 @@ class m210427_082003_updateForeignKeys extends Migration
 		$this->addForeignKey(null, Table::INVOICE_ROWS, 'invoiceId', Table::INVOICES, 'id', 'cascade', 'cascade');
 		$this->addForeignKey(null, Table::INVOICE_ROWS, 'taxCategoryId', CommerceTable::TAXCATEGORIES, 'id', 'set null', 'cascade');
 		$this->addForeignKey(null, Table::INVOICE_ROWS, 'lineItemId', CommerceTable::LINEITEMS, 'id', 'set null', 'cascade');
-    }
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function safeDown()
-    {
-        echo "m210427_082003_updateForeignKeys cannot be reverted.\n";
-        return false;
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function safeDown()
+	{
+		echo "m210427_082003_updateForeignKeys cannot be reverted.\n";
+		return false;
+	}
 }
