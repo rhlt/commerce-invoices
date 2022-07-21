@@ -68,6 +68,7 @@ class Install extends Migration
                 Table::INVOICES,
                 [
                     'id' => $this->primaryKey(),
+					'externalId' => $this->string(),
                     'orderId' => $this->integer(),
                     'invoiceId' => $this->integer()->notNull(),
                     'type' => $this->enum('type', ['invoice', 'credit'])->defaultValue('invoice'),
@@ -82,6 +83,7 @@ class Install extends Migration
                     'uid' => $this->uid(),
                 ]
             );
+			$this->createIndex(null, Table::INVOICES, 'externalId', false);
         }
 
         $tableSchema = Craft::$app->db->schema->getTableSchema(Table::INVOICE_ROWS);
