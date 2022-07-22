@@ -169,8 +169,23 @@ class CommerceInvoices extends Plugin
 			function (OrderStatusEvent $event) {
 				// @var Order $order
 				$order = $event->order;
+				$createStatus = $this->getSettings()->automaticallyCreateOrderStatusId;
 
-				if($order->orderStatusId === (int)$this->getSettings()->automaticallyCreateOrderStatusId) {
+				if ($createStatus && $order->orderStatusId == $createStatus) {
+					$this->invoices->createFromOrder($order);
+				}
+			}
+		);
+
+		Event::on(
+			Order::class,
+			Order::EVENT_AFTER_COMPLETE_ORDER,
+			function (Event $event) {
+				// @var Order $order
+				$order = $event->sender;
+				$createStatus = $this->getSettings()->automaticallyCreateOrderStatusId;
+
+				if ($createStatus && $order->orderStatusId == $createStatus) {
 					$this->invoices->createFromOrder($order);
 				}
 			}
