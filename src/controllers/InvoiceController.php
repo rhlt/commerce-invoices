@@ -21,6 +21,7 @@ use lenvanessen\commerce\invoices\helpers\Stock;
 use lenvanessen\commerce\invoices\models\FakePdf;
 use lenvanessen\commerce\invoices\records\InvoiceRow;
 use craft\commerce\Plugin as Commerce;
+use yii\web\NotFoundHttpException;
 use yii\web\UnauthorizedHttpException;
 
 /**
@@ -110,21 +111,27 @@ class InvoiceController extends Controller
 	 * @throws UnauthorizedHttpException
 	 * @throws \yii\base\Exception
 	 */
-	public function actionDownload($invoiceId)
+	public function actionDownload($invoiceId) //Note: "$invoiceId" is the invoice's UID
 	{
-		if(! $currentUser = Craft::$app->getUser()->getIdentity()) {
-			throw new UnauthorizedHttpException('Not allowed');
-		}
+		$currentUser = Craft::$app->getUser()->getIdentity();
+		//No need to check login status here; this action is not in "allowAnonymous"
 
 		$invoice = Invoice::find()->uid($invoiceId)->one();
-		if(!$currentUser->can('accessCp') && $invoice->order()->user && $invoice->order()->user->id !== $currentUser->id) {
+
+		if (!$invoice || $invoice->uid !== $invoiceId) //Setting invoiceId to '' (empty string) would select a random invoice!
+			throw new NotFoundHttpException('Invoice not found: ' . $invoiceId);
+
+		if (!$currentUser->can('accessCp') && $invoice->order()->user && $invoice->order()->user->id !== $currentUser->id)
 			throw new UnauthorizedHttpException('Not allowed');
-		}
+
+		$pdfPath = CommerceInvoices::getInstance()->getSettings()->pdfPath;
+		if (!$pdfPath)
+			throw new NotFoundHttpException('Please set a PDF Template Path in the plugin settings');
 
 		$renderedPdf = Commerce::getInstance()->getPdfs()->renderPdfForOrder(
 			$invoice->order(),
 			'',
-			CommerceInvoices::getInstance()->getSettings()->pdfPath,
+			$pdfPath,
 			[
 				'invoice' => $invoice
 			],
@@ -141,8 +148,11 @@ class InvoiceController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$orderId = $this->request->getParam('orderId');
+		$orderId = $this->request->getRequiredParam('orderId');
 		$order = Order::findOne($orderId);
+
+		if (!$order)
+			throw new NotFoundHttpException('Order not found: ' . $orderId);
 
 		$invoice = CommerceInvoices::getInstance()->invoices->createFromOrder($order, $this->request->getParam('type'));
 
@@ -155,28 +165,33 @@ class InvoiceController extends Controller
 	 */
 	public function actionTest()
 	{
-		if(! Craft::$app->getUser()->getIdentity()->can('accessCp')) {
+		if (!Craft::$app->getUser()->getIdentity()->can('accessCp')) {
 			throw new UnauthorizedHttpException('Not allowed');
 		}
 
 		$invoiceId = Craft::$app->getRequest()->get('invoiceId');
+		$invoice = Invoice::findOne($invoiceId);
 
-		return $this->renderTemplate(
-			CommerceInvoices::getInstance()->getSettings()->pdfPath,
-			['invoice' => Invoice::findOne($invoiceId)]
-		);
+		if (!$invoice)
+			throw new NotFoundHttpException('Invoice not found: ' . $invoiceId);
+
+		$pdfPath = CommerceInvoices::getInstance()->getSettings()->pdfPath;
+		if (!$pdfPath)
+			throw new NotFoundHttpException('Please set a PDF Template Path in the plugin settings');
+
+		return $this->renderTemplate($pdfPath, ['invoice' => $invoice]);
 	}
 
 	public function actionSend()
 	{
 
-		if(! Craft::$app->getUser()->getIdentity()->can('accessCp')) {
+		if (!Craft::$app->getUser()->getIdentity()->can('accessCp')) {
 			throw new UnauthorizedHttpException('Not allowed');
 		}
 
 		$orderId = Craft::$app->getRequest()->get('orderId');
 		$order = Order::find()->id($orderId)->one();
-		
-		CommerceInvoices::getInstance()->invoices->createFromorder($order);
+
+		CommerceInvoices::getInstance()->invoices->createFromOrder($order);
 	}
 }
