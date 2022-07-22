@@ -1,10 +1,22 @@
 # Commerce Invoices plugin for Craft CMS 3.x
 
+__This is a fork of `lenvanessen/commerce-invoices`. It includes the following improvements:__
+
+* Fixed the database table structure on installation and with a migrations;
+* Fixed handling of Commerce orders without billing or shipping address;
+* Added a missing dependency;
+* Invoices will now be automatically created when the order is completed and the _Auto create on status_ setting matches the default order status from Craft Commerce (the original only automatically creates invoices on a status _change_);
+* For Credit invoices, the _Restock_ option is now turned on by default;
+* Added a default "(none)" option to Status and Email dropdowns;
+* Fixed error checking in various controller actions;
+
+__Original description:__
+
 Craft Commerce is great! Their PDF system is pretty awesome to. However, pdf of a does not equal an invoice, invoices should be: Immutable and sequentially numbered.
 
 Commerce Invoices is an extension for Craft Commerce that allows you to:
 - Create PDF invoices for orders (automatically if they reach a certain status, or manually)
-- (Partially) Credit an invoice, create a credit-note 
+- (Partially) Credit an invoice, create a credit-note
 - Automatically re-stock your inventory when you (partially) credit a order
 - Keep a solid invoice history, immutable and irreversible so that your accountant will be a happy man (or woman, or any other pronoun)
 
@@ -47,7 +59,7 @@ The correct set-up is as follows:
 You can easily check a preview of the invoice by navigation to:
 https://yourlocaltest.dev/commerce-invoices/style-pdf
 
-By passing a specific invoice id you can test certain invoices, using the query parameter ?invoiceId={ID}. This is useful if you want to test a specific scenario or have problems with specific invoices. It's not necessary, you can also leave it blank and it will get the last invoice. 
+By passing a specific invoice id you can test certain invoices, using the query parameter ?invoiceId={ID}. This is useful if you want to test a specific scenario or have problems with specific invoices. It's not necessary, you can also leave it blank and it will get the last invoice.
 
 The only condition is that your site is not in production mode. You can also find a example PDF in the sourcecode of this extension, under templates.
 
@@ -56,8 +68,7 @@ The only condition is that your site is not in production mode. You can also fin
 Some things to do, and ideas for potential features:
 
 * Automatic refund creation
-* Release it 
+* Release it
 
 Brought to you by [Len van Essen](wndr.digital)
 <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-
