@@ -294,6 +294,7 @@ class Invoice extends Element
 		$attributes = [
 			'invoiceNumber' => ['label' => Craft::t('commerce-invoices', 'Invoice Number')],
 			'orderId' => ['label' => Craft::t('commerce', 'Order ID')],
+			'id' => ['label' => Craft::t('commerce-invoices', 'Invoice ID')],
 			'dateCreated' => ['label' => Craft::t('commerce-invoices', 'Invoice Date')],
 		];
 
@@ -302,7 +303,7 @@ class Invoice extends Element
 
 	protected static function defineSearchableAttributes(): array
 	{
-		return ['orderId', 'invoiceNumber', 'email'];
+		return ['id', 'orderId', 'invoiceNumber', 'email'];
 	}
 
 	protected function tableAttributeHtml(string $attribute): string
