@@ -16,6 +16,7 @@ use craft\commerce\Plugin;
 use craft\helpers\Json;
 use craft\helpers\Template;
 use craft\elements\Asset;
+use craft\elements\actions\Delete;
 use craft\elements\db\ElementQueryInterface;
 use craft\commerce\elements\Order;
 
@@ -282,6 +283,9 @@ class Invoice extends Element
 	protected static function defineActions(string $source = null): array
 	{
 		$actions = [];
+
+		if (getenv('ENVIRONMENT') == 'dev')
+			$actions[] = Delete::class;
 
 		return $actions;
 	}

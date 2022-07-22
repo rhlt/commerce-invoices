@@ -9,6 +9,7 @@ __This is a fork of `lenvanessen/commerce-invoices`. It includes the following i
 * For Credit invoices, the _Restock_ option is now turned on by default;
 * Added a default "(none)" option to Status and Email dropdowns;
 * Fixed error checking in various controller actions;
+* Allow invoices to be deleted (on development environments only);
 
 __Original description:__
 
