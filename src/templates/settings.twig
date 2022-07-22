@@ -20,8 +20,9 @@
 	id: 'invoiceNumberFormat',
 	instructions: "Use twig here. E.g {{object.dateCompleted|date('Y')}}-{{'%05d'|format(object.invoiceId) }} will result in 2021-00001"|t,
 	name: 'invoiceNumberFormat',
-	value: settings['invoiceNumberFormat']})
-}}
+	value: settings['invoiceNumberFormat'],
+	first: true
+}) }}
 
 {{ forms.selectField({
 	id: 'auto-generate-order-status-id',
