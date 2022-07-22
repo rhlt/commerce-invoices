@@ -48,6 +48,7 @@ class Invoices extends Component
 		$invoice->email = $order->email;
 		$invoice->type = $type;
 		$invoice->sent = !$invoice->getIsCredit(); // Send invoices by default
+		$invoice->restock = $invoice->getIsCredit(); //Restock credit invoices by default
 
 		if(! Craft::$app->getElements()->saveElement($invoice)) {
 
