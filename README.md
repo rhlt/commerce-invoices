@@ -2,10 +2,10 @@
 
 __This is a fork of `lenvanessen/commerce-invoices`. It includes the following improvements:__
 
-* Fixed the database table structure on installation and with a migrations;
+* Fixed the database table structure on installation and with migrations;
 * Fixed handling of Commerce orders without billing or shipping address;
 * Added a missing dependency;
-* Invoices will now be automatically created when the order is completed and the _Auto create on status_ setting matches the default order status from Craft Commerce (the original only automatically creates invoices on a status _change_);
+* Invoices will now be automatically created when the order is completed and the _Auto create on status_ setting matches the default order status from Craft Commerce (the original plugin only automatically creates invoices on a status _change_);
 * For Credit invoices, the _Restock_ option is now turned on by default;
 * Added a default "(none)" option to Status and Email dropdowns;
 * Fixed error checking in various controller actions;
