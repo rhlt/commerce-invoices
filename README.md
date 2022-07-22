@@ -70,5 +70,8 @@ Some things to do, and ideas for potential features:
 * Automatic refund creation
 * Release it
 
-Brought to you by [Len van Essen](wndr.digital)
+Brought to you by [Len van Essen](https://wndr.digital)
+
+Various improvements by [Ruben Holthuijsen](https://www.webburo-spring.nl)
+
 <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
