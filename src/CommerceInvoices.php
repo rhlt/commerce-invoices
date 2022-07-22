@@ -205,16 +205,17 @@ class CommerceInvoices extends Plugin
 	 */
 	protected function settingsHtml(): string
 	{
+		$noneOption = [0 => Craft::t('commerce-invoices', '(none)')];
 		return Craft::$app->view->renderTemplate(
 			'commerce-invoices/settings',
 			[
 				'settings' => $this->getSettings(),
-				'orderStatuses' => ArrayHelper::map(
+				'orderStatuses' => $noneOption + ArrayHelper::map(
 					Commerce::getInstance()->orderStatuses->getAllOrderStatuses(),
 					'id',
 					'name'
 				),
-				'emails' => ArrayHelper::map(
+				'emails' => $noneOption + ArrayHelper::map(
 					Commerce::getInstance()->emails->getAllEmails(),
 					'id',
 					'name'

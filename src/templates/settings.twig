@@ -36,7 +36,7 @@
 <h1>{{ 'Emails'|t('commerce-invoices') }}</h1>
 <p><strong>{{ 'Important'|t('commerce-invoices') }}:</strong>
 <br>{{ "Don't create a native 'PDF' in Craft for the invoice/credit pdf. You can select a template in the settings of this plugin, and based on the emails you select below the system will attach the emails automatically."|t('commerce-invoices') }}</p>
-{% if not emails|length %}
+{% if emails|length <= 1 %} {# emails includes a "none" option #}
 	{{ forms.field({
 		label: 'Status Emails'|t('commerce'),
 		instructions: '<span class="error">'~'You currently have no emails configured to select for this status.'|t('commerce')~'</span>',
