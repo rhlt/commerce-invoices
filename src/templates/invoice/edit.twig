@@ -112,7 +112,7 @@
 				{% for key in fields if key in invoice.shippingAddress.addressLines|keys %}
 					<br>
 					{% if key in strong %}<strong>{% endif %}
-					{{ invoice.billingAddress.addressLines[key] }}
+					{{ invoice.shippingAddress.addressLines[key] }}
 					{% if key in strong %}</strong>{% endif %}
 				{% endfor %}
 			{% else %}
