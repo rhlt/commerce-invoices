@@ -2,258 +2,258 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>{{ invoice.type|capitalize|t }}</title>
-    <!-- Dependencies -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Invoice -->
-    <style>
-        @page { margin: 0; size: auto; }
+	<meta charset="utf-8">
+	<title>{{ invoice.type|capitalize|t }}</title>
+	<!-- Dependencies -->
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+	<!-- Invoice -->
+	<style>
+		@page { margin: 0; size: auto; }
 
-        @media print {
-            body {
-                margin: 1.2cm;
-                -webkit-print-color-adjust: exact;
-            }
-        }
+		@media print {
+			body {
+				margin: 1.2cm;
+				-webkit-print-color-adjust: exact;
+			}
+		}
 
-        @media only screen and (max-width: 600px) {
-            .invoice-box table tr.top table td {
-                width: 100%;
-                display: block;
-                text-align: center;
-            }
+		@media only screen and (max-width: 600px) {
+			.invoice-box table tr.top table td {
+				width: 100%;
+				display: block;
+				text-align: center;
+			}
 
-            .invoice-box table tr.information table td {
-                width: 100%;
-                display: block;
-                text-align: center;
-            }
-        }
+			.invoice-box table tr.information table td {
+				width: 100%;
+				display: block;
+				text-align: center;
+			}
+		}
 
-        b, strong {
-            font-weight:700;
-        }
+		b, strong {
+			font-weight:700;
+		}
 
-        h1  {
-            font-weight: normal;
-            margin-top:0;
-            /*font-family: 'Roboto', sans-serif;*/
-        }
+		h1  {
+			font-weight: normal;
+			margin-top:0;
+			/*font-family: 'Roboto', sans-serif;*/
+		}
 
-        body {
-            font-family: 'Open Sans', sans-serif;
-            /*font-family: 'Roboto', sans-serif;*/
-        }
+		body {
+			font-family: 'Open Sans', sans-serif;
+			/*font-family: 'Roboto', sans-serif;*/
+		}
 
-        a {
-            text-decoration: none;
-        }
-        .invoice-box {
-            max-width: 800px;
-            margin: auto;
-            padding: 30px;
-            font-size: 16px;
-            line-height: 24px;
+		a {
+			text-decoration: none;
+		}
+		.invoice-box {
+			max-width: 800px;
+			margin: auto;
+			padding: 30px;
+			font-size: 16px;
+			line-height: 24px;
 
-            color: #555;
-        }
+			color: #555;
+		}
 
-        .invoice-box .information #company-name {
-            font-weight: bold;
-        }
+		.invoice-box .information #company-name {
+			font-weight: bold;
+		}
 
-        .invoice-box .information #client-name {
-            font-weight: bold;
-        }
+		.invoice-box .information #client-name {
+			font-weight: bold;
+		}
 
-        .invoice-box table {
-            width: 100%;
-            line-height: inherit;
-            text-align: left;
-        }
+		.invoice-box table {
+			width: 100%;
+			line-height: inherit;
+			text-align: left;
+		}
 
-        .invoice-box table td {
-            padding: 5px;
-            vertical-align: top;
-        }
+		.invoice-box table td {
+			padding: 5px;
+			vertical-align: top;
+		}
 
-        .information table {
-            width:auto;
-            vertical-align: top;
-        }
+		.information table {
+			width:auto;
+			vertical-align: top;
+		}
 
-        .invoice-box table tr.top table td {
-            padding-bottom: 20px;
-        }
+		.invoice-box table tr.top table td {
+			padding-bottom: 20px;
+		}
 
-        .invoice-box table tr.top table td.title {
-            font-size: 45px;
-            line-height: 45px;
-            color: #333;
-            text-transform: uppercase;
-            font-weight: 300;
-            font-family: 'Roboto', sans-serif;
-        }
+		.invoice-box table tr.top table td.title {
+			font-size: 45px;
+			line-height: 45px;
+			color: #333;
+			text-transform: uppercase;
+			font-weight: 300;
+			font-family: 'Roboto', sans-serif;
+		}
 
-        .invoice-box table tr.information table td {
-            padding-bottom: 40px;
-        }
+		.invoice-box table tr.information table td {
+			padding-bottom: 40px;
+		}
 
-        .invoice-box table tr.information span:nth-child(1) {
-            font-weight: bold;
-            font-size: 8pt;
-            text-transform: uppercase;
-        }
+		.invoice-box table tr.information span:nth-child(1) {
+			font-weight: bold;
+			font-size: 8pt;
+			text-transform: uppercase;
+		}
 
-        .invoice-box table tr.heading td {
-            border-bottom: 1px solid black;
-            font-weight: bold;
-        }
+		.invoice-box table tr.heading td {
+			border-bottom: 1px solid black;
+			font-weight: bold;
+		}
 
-        .invoice-box table tr.details td {
-            padding-bottom: 20px;
-        }
+		.invoice-box table tr.details td {
+			padding-bottom: 20px;
+		}
 
-        .invoice-box table tr.item td{
-            border-bottom: 1px solid #eee;
-        }
+		.invoice-box table tr.item td{
+			border-bottom: 1px solid #eee;
+		}
 
-        .invoice-box table tr.item:last-child td {
-            border-bottom: none;
-        }
+		.invoice-box table tr.item:last-child td {
+			border-bottom: none;
+		}
 
-        .invoice-box .invoice-summary {
-            border-top: 2px solid #eee;
-            text-align: right;
-            display: inline-block;
-            float: right;
-            padding: 5pt;
-        }
+		.invoice-box .invoice-summary {
+			border-top: 2px solid #eee;
+			text-align: right;
+			display: inline-block;
+			float: right;
+			padding: 5pt;
+		}
 
-        .invoice-box .invoice-summary .invoice-total {
-            font-weight: bold;
-        }
+		.invoice-box .invoice-summary .invoice-total {
+			font-weight: bold;
+		}
 
-        .invoice-box .invoice-summary .invoice-final {
-            font-weight: 300;
-            padding-top: 8pt;
-        }
+		.invoice-box .invoice-summary .invoice-final {
+			font-weight: 300;
+			padding-top: 8pt;
+		}
 
-        .invoice-box .invoice-summary .invoice-exchange {
-            font-weight: 300;
-            font-size: 12px;
-        }
+		.invoice-box .invoice-summary .invoice-exchange {
+			font-weight: 300;
+			font-size: 12px;
+		}
 
-        a {
-            color:#10A0E9;
-            text-decoration: none;
-        }
+		a {
+			color:#10A0E9;
+			text-decoration: none;
+		}
 
-        .border-top {
-            border-top: 1px solid black;
-        }
+		.border-top {
+			border-top: 1px solid black;
+		}
 
-        .information table td {
-            padding-left:25px;
-        }
-    </style>
+		.information table td {
+			padding-left:25px;
+		}
+	</style>
 </head>
 
 <body>
 <div class="invoice-box">
-    <table cellpadding="0" cellspacing="0">
-        <tr class="top">
-            <td colspan="2">
-                <table>
-                    <tr>
-                        <td class="title">
-                            <img src="{# Base64 encoded logo #}" alt="Logo" width="200">
-                        </td>
+	<table cellpadding="0" cellspacing="0">
+		<tr class="top">
+			<td colspan="2">
+				<table>
+					<tr>
+						<td class="title">
+							<img src="{# Base64 encoded logo #}" alt="Logo" width="200">
+						</td>
 
-                        <td width="35%">
-                            {% set store = craft.commerce.addresses.storeLocationAddress %}
-                            <strong>{{ store.businessName }}</strong>
-                            <br>{{ store.address1 }}
-                            <br>{{ store.zipCode }} {{ store.city }}
-                            <br>{{ store.country|t }}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr class="information">
-            <td colspan="2">
-                <table>
-                    <tr>
-                        <td class="information-company">
-                            {% if address.businessName %}
-                                <strong>{{ address.businessName }}</strong>
-                                <br>{ address.firstName }} {{ address.lastName }}
-                            {% else %}
-                                <strong>{{ address.firstName }} {{ address.lastName }}</strong>
-                            {% endif %}
-                            <br>{{ address.address1 }} {{ address.address3 }}
-                            <br>{{ address.zipCode }} {{ address.city }}
-                            <br>{{ (address.countryText ?? address.country)|t }}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+						<td width="35%">
+							{% set store = craft.commerce.addresses.storeLocationAddress %}
+							<strong>{{ store.businessName }}</strong>
+							<br>{{ store.address1 }}
+							<br>{{ store.zipCode }} {{ store.city }}
+							<br>{{ store.country|t }}
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr class="information">
+			<td colspan="2">
+				<table>
+					<tr>
+						<td class="information-company">
+							{% if address.businessName %}
+								<strong>{{ address.businessName }}</strong>
+								<br>{ address.firstName }} {{ address.lastName }}
+							{% else %}
+								<strong>{{ address.firstName }} {{ address.lastName }}</strong>
+							{% endif %}
+							<br>{{ address.address1 }} {{ address.address3 }}
+							<br>{{ address.zipCode }} {{ address.city }}
+							<br>{{ (address.countryText ?? address.country)|t }}
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
 
-    <table class="invoice-payment" cellpadding="0" cellspacing="0">
-        <tr>
-            <td>
-                <h1>{{ invoice.type|capitalize|t }}: #{{ invoice.invoiceNumber }}</h1>
-            </td>
-            <td width="30%">
-                {{ 'Invoice date'|t }}: {{ invoice.dateCreated|date('short') }}
-            </td>
-        </tr>
-    </table>
+	<table class="invoice-payment" cellpadding="0" cellspacing="0">
+		<tr>
+			<td>
+				<h1>{{ invoice.type|capitalize|t }}: #{{ invoice.invoiceNumber }}</h1>
+			</td>
+			<td width="30%">
+				{{ 'Invoice date'|t }}: {{ invoice.dateCreated|date('short') }}
+			</td>
+		</tr>
+	</table>
 
-    <table class="invoice-items" cellpadding="0" cellspacing="0">
-        <tr class="heading">
-            <td></td>
-            <td><span class="t-item">{{ 'Description'|t }}</span></td>
-            <td><span class="t-price">{{ 'Price'|t }}</span></td>
-            <td>{{ 'Tax'|t }}</td>
-            <td>{{ 'Total'|t }}</td>
-        </tr>
+	<table class="invoice-items" cellpadding="0" cellspacing="0">
+		<tr class="heading">
+			<td></td>
+			<td><span class="t-item">{{ 'Description'|t }}</span></td>
+			<td><span class="t-price">{{ 'Price'|t }}</span></td>
+			<td>{{ 'Tax'|t }}</td>
+			<td>{{ 'Total'|t }}</td>
+		</tr>
 
-        {% for item in invoice.rows %}
-            <tr>
-                <td>
-                    {{ item.qty }}x
-                </td>
-                <td>
-                    {{ item.description }}
-                </td>
-                <td>{{ item.price|commerceCurrency }}</td>
-                <td>{{ item.subtotal|commerceCurrency }}</td>
-                <td>{{ item.tax|commerceCurrency }}</td>
-            </tr>
-        {% endfor %}
+		{% for item in invoice.rows %}
+			<tr>
+				<td>
+					{{ item.qty }}x
+				</td>
+				<td>
+					{{ item.description }}
+				</td>
+				<td>{{ item.price|commerceCurrency }}</td>
+				<td>{{ item.subtotal|commerceCurrency }}</td>
+				<td>{{ item.tax|commerceCurrency }}</td>
+			</tr>
+		{% endfor %}
 
-        <tr>
-            <td colspan="2" class="border-top">
-            <td class="border-top"><strong>{{ 'Subtotal'|t }}</strong></td>
-            <td class="border-top">{{ invoice.subtotal }}</td>
-            <td class="border-top"></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-            <td><strong>{{ 'Tax'|t }}</strong></td>
-            <td>{{ invoice.totalTax|commerceCurrency }}</td>
-        </tr>
-        <tr>
-            <td colspan="2">
-            <td class="border-top"><strong>{{ 'Total'|t }}</strong></td>
-            <td class="border-top">{{ (invoice.total)|commerceCurrency }}</td>
-        </tr>
-    </table>
+		<tr>
+			<td colspan="2" class="border-top">
+			<td class="border-top"><strong>{{ 'Subtotal'|t }}</strong></td>
+			<td class="border-top">{{ invoice.subtotal }}</td>
+			<td class="border-top"></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<td><strong>{{ 'Tax'|t }}</strong></td>
+			<td>{{ invoice.totalTax|commerceCurrency }}</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<td class="border-top"><strong>{{ 'Total'|t }}</strong></td>
+			<td class="border-top">{{ (invoice.total)|commerceCurrency }}</td>
+		</tr>
+	</table>
 </div>
 </body>
 </html>

@@ -7,18 +7,18 @@ use FunctionalTester;
 
 class ExampleFunctionalCest
 {
-    // Public methods
-    // =========================================================================
+	// Public methods
+	// =========================================================================
 
-    // Tests
-    // =========================================================================
+	// Tests
+	// =========================================================================
 
-    /**
-     *
-     */
-    public function testCraftEdition(FunctionalTester $I)
-    {
-        $I->amOnPage('?p=/');
-        $I->seeResponseCodeIs(200);
-    }
+	/**
+	 *
+	 */
+	public function testCraftEdition(FunctionalTester $I)
+	{
+		$I->amOnPage('?p=/');
+		$I->seeResponseCodeIs(200);
+	}
 }

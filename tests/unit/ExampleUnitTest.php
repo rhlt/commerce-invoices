@@ -4,7 +4,7 @@
  *
  * A pdf of an orders does not equal an invoice, invoices should be: Immutable, sequential in order.  Commerce Invoices allows you to create moment-in-time snapshots of a order to create a invoice or credit invoice
  *
- * @link      wndr.digital
+ * @link	  wndr.digital
  * @copyright Copyright (c) 2021 Len van Essen
  */
 
@@ -19,47 +19,47 @@ use lenvanessen\commerceinvoices\CommerceInvoices;
  * ExampleUnitTest
  *
  *
- * @author    Len van Essen
+ * @author	Len van Essen
  * @package   CommerceInvoices
- * @since     1.0.0
+ * @since	 1.0.0
  */
 class ExampleUnitTest extends Unit
 {
-    // Properties
-    // =========================================================================
+	// Properties
+	// =========================================================================
 
-    /**
-     * @var UnitTester
-     */
-    protected $tester;
+	/**
+	 * @var UnitTester
+	 */
+	protected $tester;
 
-    // Public methods
-    // =========================================================================
+	// Public methods
+	// =========================================================================
 
-    // Tests
-    // =========================================================================
+	// Tests
+	// =========================================================================
 
-    /**
-     *
-     */
-    public function testPluginInstance()
-    {
-        $this->assertInstanceOf(
-            CommerceInvoices::class,
-            CommerceInvoices::$plugin
-        );
-    }
+	/**
+	 *
+	 */
+	public function testPluginInstance()
+	{
+		$this->assertInstanceOf(
+			CommerceInvoices::class,
+			CommerceInvoices::$plugin
+		);
+	}
 
-    /**
-     *
-     */
-    public function testCraftEdition()
-    {
-        Craft::$app->setEdition(Craft::Pro);
+	/**
+	 *
+	 */
+	public function testCraftEdition()
+	{
+		Craft::$app->setEdition(Craft::Pro);
 
-        $this->assertSame(
-            Craft::Pro,
-            Craft::$app->getEdition()
-        );
-    }
+		$this->assertSame(
+			Craft::Pro,
+			Craft::$app->getEdition()
+		);
+	}
 }

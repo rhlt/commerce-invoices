@@ -5,11 +5,11 @@
  *
  * Commerce Invoices index.twig
  *
- * @author    Len van Essen
+ * @author	Len van Essen
  * @copyright Copyright (c) 2021 Len van Essen
- * @link      wndr.digital
+ * @link	  wndr.digital
  * @package   CommerceInvoices
- * @since     1.0.0
+ * @since	 1.0.0
  */
 #}
 {% extends "_layouts/elementindex" %}
@@ -26,13 +26,13 @@
 {% set iconUrl = view.getAssetManager().getPublishedUrl('@lenvanessen/commerce/invoices/assetbundles/invoicescpsection/dist', true) ~ '/img/Invoices-icon.svg' %}
 
 {% set extraPageHeaderHtml %}
-    <div class="buttons">
-        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('commerce-invoices') }}</a>
-    </div>
+	<div class="buttons">
+		<a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('commerce-invoices') }}</a>
+	</div>
 {% endset %}
 
 {% set content %}
-    <h2>{{ "Invoices CP Section body goes here"|t('commerce-invoices') }}</h2>
-    <img src="{{ iconUrl }}" height="64" width="64" />
-    <p class="textline"></p>
+	<h2>{{ "Invoices CP Section body goes here"|t('commerce-invoices') }}</h2>
+	<img src="{{ iconUrl }}" height="64" width="64" />
+	<p class="textline"></p>
 {% endset %}

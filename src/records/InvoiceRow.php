@@ -4,7 +4,7 @@
  *
  * A pdf of an orders does not equal an invoice, invoices should be: Immutable, sequential in order.  Commerce Invoices allows you to create moment-in-time snapshots of a order to create a invoice or credit invoice
  *
- * @link      wndr.digital
+ * @link	  wndr.digital
  * @copyright Copyright (c) 2021 Len van Essen
  */
 
@@ -14,36 +14,36 @@ use craft\commerce\records\LineItem;
 use craft\db\ActiveRecord;
 
 /**
- * @author    Len van Essen
+ * @author	Len van Essen
  * @package   CommerceInvoices
- * @since     1.0.0
+ * @since	 1.0.0
  */
 class InvoiceRow extends ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%commerceinvoices_invoicerow}}';
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public static function tableName()
+	{
+		return '{{%commerceinvoices_invoicerow}}';
+	}
 
-    public function subTotal()
-    {
-        return $this->qty * $this->price;
-    }
+	public function subTotal()
+	{
+		return $this->qty * $this->price;
+	}
 
-    public function subTotalTax()
-    {
-        return $this->qty * $this->tax;
-    }
+	public function subTotalTax()
+	{
+		return $this->qty * $this->tax;
+	}
 
-    public function getLineItem()
-    {
-        if(! $this->lineItemId) {
-            return false;
-        }
+	public function getLineItem()
+	{
+		if(! $this->lineItemId) {
+			return false;
+		}
 
-        return LineItem::findOne($this->lineItemId);
-    }
+		return LineItem::findOne($this->lineItemId);
+	}
 }

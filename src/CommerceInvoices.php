@@ -4,7 +4,7 @@
  *
  * A pdf of an orders does not equal an invoice, invoices should be: Immutable, sequential in order.  Commerce Invoices allows you to create moment-in-time snapshots of a order to create a invoice or credit invoice
  *
- * @link      wndr.digital
+ * @link	  wndr.digital
  * @copyright Copyright (c) 2021 Len van Essen
  */
 
@@ -41,217 +41,233 @@ use yii\base\ModelEvent;
 /**
  * Class CommerceInvoices
  *
- * @author    Len van Essen
+ * @author	Len van Essen
  * @package   CommerceInvoices
- * @since     1.0.0
+ * @since	 1.0.0
  *
  */
 class CommerceInvoices extends Plugin
 {
-    /**
-     * @var CommerceInvoices
-     */
-    public static $plugin;
+	/**
+	 * @var CommerceInvoices
+	 */
+	public static $plugin;
 
-    /**
-     * @var string
-     */
-    public $schemaVersion = '1.0.1';
+	/**
+	 * @var string
+	 */
+	public $schemaVersion = '1.0.3';
 
-    /**
-     * @var bool
-     */
-    public $hasCpSettings = true;
+	/**
+	 * @var bool
+	 */
+	public $hasCpSettings = true;
 
-    /**
-     * @var bool
-     */
-    public $hasCpSection = true;
+	/**
+	 * @var bool
+	 */
+	public $hasCpSection = true;
 
-    public function __construct($id, $parent = null, array $config = [])
-    {
-        $this->_registerRoutes();
+	public function __construct($id, $parent = null, array $config = [])
+	{
+		$this->_registerRoutes();
 
-        parent::__construct($id, $parent, $config);
-    }
+		parent::__construct($id, $parent, $config);
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-        self::$plugin = $this;
+	/**
+	 * @inheritdoc
+	 */
+	public function init()
+	{
+		parent::init();
+		self::$plugin = $this;
 
-        $this->_registerComponents();
-        $this->_registerRoutes();
-        $this->_attachPdfsToEmails();
-        $this->_creatInvoiceOnOrderStatusChange();
-        $this->_registerVariables();
-        $this->_injectOrderActions();
-    }
+		$this->_registerComponents();
+		$this->_registerRoutes();
+		$this->_attachPdfsToEmails();
+		$this->_creatInvoiceOnOrderStatusChange();
+		$this->_registerVariables();
+		$this->_injectOrderActions();
+	}
 
-    private function _injectOrderActions()
-    {
-        Craft::$app->view->hook('cp.commerce.order.edit.order-secondary-actions', function(array &$context) {
-            $order = $context['order'];
-//             if(! $order->id || Invoice::find()->orderId($order->id)->type('credit')->exists() || ! $order->isCompleted) {
-//                 return '';
-//             }
+	private function _injectOrderActions()
+	{
+		Craft::$app->view->hook('cp.commerce.order.edit.order-secondary-actions', function(array &$context) {
+			$order = $context['order'];
+// 			if(! $order->id || Invoice::find()->orderId($order->id)->type('credit')->exists() || ! $order->isCompleted) {
+// 				return '';
+// 			}
 
-            $html = '<style>#order-secondary-actions{display:flex;}</style>';
-            $html .= '<div class="spacer"></div><a href="'. UrlHelper::cpUrl('commerce-invoices/create?orderId='.$order->id).'&type=credit" type="button" class="btn submit">Credit invoice</a>';
+			$html = '<style>#order-secondary-actions{display:flex;}</style>';
+			$html .= '<div class="spacer"></div><a href="'. UrlHelper::cpUrl('commerce-invoices/create?orderId='.$order->id).'&type=credit" type="button" class="btn submit">Credit invoice</a>';
 
-            return $html;
-        });
-    }
+			return $html;
+		});
+	}
 
-    private function _attachPdfsToEmails()
-    {
-        Event::on(
-            Emails::class,
-            Emails::EVENT_BEFORE_SEND_MAIL,
-            function(MailEvent $event) {
+	private function _attachPdfsToEmails()
+	{
+		Event::on(
+			Emails::class,
+			Emails::EVENT_BEFORE_SEND_MAIL,
+			function(MailEvent $event) {
 
-                if(isset($event->orderData['invoiceId']) && $invoice = Invoice::findOne($event->orderData['invoiceId'])) {
-                    $this->emails->attachInvoiceToMail($event, $invoice);
-                    return;
-                }
+				if(isset($event->orderData['invoiceId']) && $invoice = Invoice::findOne($event->orderData['invoiceId'])) {
+					$this->emails->attachInvoiceToMail($event, $invoice);
+					return;
+				}
 
-                // Or add them recursively
-                $invoices = Invoice::find()->orderId($event->order->id)->all();
+				// Or add them recursively
+				$invoices = Invoice::find()->orderId($event->order->id)->all();
 
-                foreach($invoices as $invoice) {
-                    $mailSettingName = "{$invoice->type}EmailId";
-                    $mailId = CommerceInvoices::getInstance()->getSettings()->{$mailSettingName};
+				foreach($invoices as $invoice) {
+					$mailSettingName = "{$invoice->type}EmailId";
+					$mailId = CommerceInvoices::getInstance()->getSettings()->{$mailSettingName};
 
-                    if($mailId === $event->commerceEmail->id && $invoice->sent == true) {
-                        $this->emails->attachInvoiceToMail($event, $invoice);
-                    }
-                }
-            }
-        );
-    }
+					if($mailId === $event->commerceEmail->id && $invoice->sent == true) {
+						$this->emails->attachInvoiceToMail($event, $invoice);
+					}
+				}
+			}
+		);
+	}
 
-    private function _registerVariables(): void
-    {
-        Event::on(
-            CraftVariable::class,
-            CraftVariable::EVENT_INIT,
-            function (Event $event) {
-                /** @var CraftVariable $variable */
-                $variable = $event->sender;
-                $variable->set('invoices', InvoiceVariable::class);
-            }
-        );
-    }
+	private function _registerVariables(): void
+	{
+		Event::on(
+			CraftVariable::class,
+			CraftVariable::EVENT_INIT,
+			function (Event $event) {
+				/** @var CraftVariable $variable */
+				$variable = $event->sender;
+				$variable->set('invoices', InvoiceVariable::class);
+			}
+		);
+	}
 
-    private function _registerComponents(): void
-    {
-        $this->setComponents([
-            'invoices' => [
-                'class' => Invoices::class,
-            ],
-            'invoiceRows' => [
-                'class' => InvoiceRows::class
-            ],
-            'emails' => [
-                'class' => InternalMailService::class
-            ]
-        ]);
-    }
+	private function _registerComponents(): void
+	{
+		$this->setComponents([
+			'invoices' => [
+				'class' => Invoices::class,
+			],
+			'invoiceRows' => [
+				'class' => InvoiceRows::class
+			],
+			'emails' => [
+				'class' => InternalMailService::class
+			]
+		]);
+	}
 
-    private function _creatInvoiceOnOrderStatusChange()
-    {
-        Event::on(
-            OrderHistories::class,
-            OrderHistories::EVENT_ORDER_STATUS_CHANGE,
-            function (OrderStatusEvent $event) {
-                // @var Order $order
-                $order = $event->order;
+	private function _creatInvoiceOnOrderStatusChange()
+	{
+		Event::on(
+			OrderHistories::class,
+			OrderHistories::EVENT_ORDER_STATUS_CHANGE,
+			function (OrderStatusEvent $event) {
+				// @var Order $order
+				$order = $event->order;
+				$createStatus = $this->getSettings()->automaticallyCreateOrderStatusId;
 
-                if($order->orderStatusId === (int)$this->getSettings()->automaticallyCreateOrderStatusId) {
-                    $this->invoices->createFromOrder($order);
-                }
-            }
-        );
-    }
+				if ($createStatus && $order->orderStatusId == $createStatus) {
+					$this->invoices->createFromOrder($order);
+				}
+			}
+		);
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function createSettingsModel()
-    {
-        return new Settings();
-    }
+		Event::on(
+			Order::class,
+			Order::EVENT_AFTER_COMPLETE_ORDER,
+			function (Event $event) {
+				// @var Order $order
+				$order = $event->sender;
+				$createStatus = $this->getSettings()->automaticallyCreateOrderStatusId;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function settingsHtml(): string
-    {
-        return Craft::$app->view->renderTemplate(
-            'commerce-invoices/settings',
-            [
-                'settings' => $this->getSettings(),
-                'orderStatuses' => ArrayHelper::map(
-                    Commerce::getInstance()->orderStatuses->getAllOrderStatuses(),
-                    'id',
-                    'name'
-                ),
-                'emails' => ArrayHelper::map(
-                    Commerce::getInstance()->emails->getAllEmails(),
-                    'id',
-                    'name'
-                )
-            ]
-        );
-    }
+				if ($createStatus && $order->orderStatusId == $createStatus) {
+					$this->invoices->createFromOrder($order);
+				}
+			}
+		);
+	}
 
-    public function getCpNavItem()
-    {
-        $parent = parent::getCpNavItem();
-        $parent['label'] = Craft::t('commerce-invoices', 'Invoices');
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function createSettingsModel()
+	{
+		return new Settings();
+	}
 
-        $subnav = [
-            'commerceInvoices' => [
-                'label' => Craft::t('commerce-invoices', 'Invoices'),
-                'url'   => 'commerce-invoices'
-            ]
-        ];
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function settingsHtml(): string
+	{
+		$noneOption = [0 => Craft::t('commerce-invoices', '(none)')];
+		return Craft::$app->view->renderTemplate(
+			'commerce-invoices/settings',
+			[
+				'settings' => $this->getSettings(),
+				'orderStatuses' => $noneOption + ArrayHelper::map(
+					Commerce::getInstance()->orderStatuses->getAllOrderStatuses(),
+					'id',
+					'name'
+				),
+				'emails' => $noneOption + ArrayHelper::map(
+					Commerce::getInstance()->emails->getAllEmails(),
+					'id',
+					'name'
+				)
+			]
+		);
+	}
 
-        if(Craft::$app->getConfig()->general->allowAdminChanges) {
-            $subnav['invoiceSettings'] = [
-                'label' => Craft::t('commerce-invoices', 'Settings'),
-                'url'   => 'settings/plugins/commerce-invoices'
-            ];
-        }
-        return array_merge($parent,[
-            'subnav' => $subnav
-        ]);
-    }
+	public function getCpNavItem()
+	{
+		$parent = parent::getCpNavItem();
+		$parent['label'] = Craft::t('commerce-invoices', 'Invoices');
 
-    private function _registerRoutes(): void
-    {
-        Event::on(
-            UrlManager::class,
-            UrlManager::EVENT_REGISTER_CP_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules['commerce-invoices/<invoiceId:\d+>'] = 'commerce-invoices/invoice/edit';
-                $event->rules['commerce-invoices/create'] = 'commerce-invoices/invoice/create';
-            }
-        );
+		$subnav = [
+			'commerceInvoices' => [
+				'label' => Craft::t('commerce-invoices', 'Invoices'),
+				'url'   => 'commerce-invoices'
+			]
+		];
 
-        Event::on(
-            UrlManager::class,
-            UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules['commerce-invoices/download/<invoiceId:{uid}>'] = 'commerce-invoices/invoice/download';
-                if (getenv('ENVIRONMENT') !== 'production') {
-                    $event->rules['commerce-invoices/style-pdf'] = 'commerce-invoices/invoice/test';
-                    $event->rules['test-send'] = 'commerce-invoices/invoice/send';
-                }
-            }
-        );
-    }
+		if(Craft::$app->getConfig()->general->allowAdminChanges) {
+			$subnav['invoiceSettings'] = [
+				'label' => Craft::t('commerce-invoices', 'Settings'),
+				'url'   => 'settings/plugins/commerce-invoices'
+			];
+		}
+		return array_merge($parent,[
+			'subnav' => $subnav
+		]);
+	}
+
+	private function _registerRoutes(): void
+	{
+		Event::on(
+			UrlManager::class,
+			UrlManager::EVENT_REGISTER_CP_URL_RULES,
+			function (RegisterUrlRulesEvent $event) {
+				$event->rules['commerce-invoices/<invoiceId:\d+>'] = 'commerce-invoices/invoice/edit';
+				$event->rules['commerce-invoices/create'] = 'commerce-invoices/invoice/create';
+			}
+		);
+
+		Event::on(
+			UrlManager::class,
+			UrlManager::EVENT_REGISTER_SITE_URL_RULES,
+			function (RegisterUrlRulesEvent $event) {
+				$event->rules['commerce-invoices/download/<invoiceId:{uid}>'] = 'commerce-invoices/invoice/download';
+				if (getenv('ENVIRONMENT') !== 'production') {
+					$event->rules['commerce-invoices/style-pdf'] = 'commerce-invoices/invoice/test';
+					$event->rules['test-send'] = 'commerce-invoices/invoice/send';
+				}
+			}
+		);
+	}
 }
