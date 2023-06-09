@@ -95,9 +95,9 @@ class CommerceInvoices extends Plugin
 	{
 		Craft::$app->view->hook('cp.commerce.order.edit.order-secondary-actions', function(array &$context) {
 			$order = $context['order'];
-			if(! $order->id || Invoice::find()->orderId($order->id)->type('credit')->exists() || ! $order->isCompleted) {
-				return '';
-			}
+// 			if(! $order->id || Invoice::find()->orderId($order->id)->type('credit')->exists() || ! $order->isCompleted) {
+// 				return '';
+// 			}
 
 			$html = '<style>#order-secondary-actions{display:flex;}</style>';
 			$html .= '<div class="spacer"></div><a href="'. UrlHelper::cpUrl('commerce-invoices/create?orderId='.$order->id).'&type=credit" type="button" class="btn submit">Credit invoice</a>';
