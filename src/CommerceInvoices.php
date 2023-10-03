@@ -54,11 +54,6 @@ class CommerceInvoices extends Plugin
 	public static $plugin;
 
 	/**
-	 * @var string
-	 */
-	public string $schemaVersion = '1.0.3';
-
-	/**
 	 * @var bool
 	 */
 	public bool $hasCpSettings = true;
@@ -82,6 +77,8 @@ class CommerceInvoices extends Plugin
 	{
 		parent::init();
 		self::$plugin = $this;
+
+		$this->schemaVersion = '1.0.3';
 
 		$this->_registerComponents();
 		$this->_registerRoutes();
