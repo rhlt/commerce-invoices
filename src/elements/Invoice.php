@@ -16,6 +16,7 @@ use craft\commerce\Plugin;
 use craft\helpers\Json;
 use craft\helpers\Template;
 use craft\elements\Asset;
+use craft\elements\User;
 use craft\elements\actions\Delete;
 use craft\elements\db\ElementQueryInterface;
 use craft\commerce\elements\Order;
@@ -183,6 +184,10 @@ class Invoice extends Element
 	public function getPdfUrl()
 	{
 		return UrlHelper::siteUrl('/commerce-invoices/download/'.$this->uid);
+	}
+
+	public function canView(User $user): bool {
+		return $user->can('accessCp');
 	}
 
 	/**
