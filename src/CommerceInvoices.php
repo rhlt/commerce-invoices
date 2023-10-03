@@ -56,17 +56,17 @@ class CommerceInvoices extends Plugin
 	/**
 	 * @var string
 	 */
-	public $schemaVersion = '1.0.3';
+	public string $schemaVersion = '1.0.3';
 
 	/**
 	 * @var bool
 	 */
-	public $hasCpSettings = true;
+	public bool $hasCpSettings = true;
 
 	/**
 	 * @var bool
 	 */
-	public $hasCpSection = true;
+	public bool $hasCpSection = true;
 
 	public function __construct($id, $parent = null, array $config = [])
 	{
@@ -195,7 +195,7 @@ class CommerceInvoices extends Plugin
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function createSettingsModel()
+	protected function createSettingsModel(): Settings
 	{
 		return new Settings();
 	}
@@ -224,7 +224,7 @@ class CommerceInvoices extends Plugin
 		);
 	}
 
-	public function getCpNavItem()
+	public function getCpNavItem(): ?array
 	{
 		$parent = parent::getCpNavItem();
 		$parent['label'] = Craft::t('commerce-invoices', 'Invoices');
