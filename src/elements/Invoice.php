@@ -38,6 +38,8 @@ class Invoice extends Element
 	const TYPE_CREDIT = 'credit';
 	const TYPE_INVOICE = 'invoice';
 
+	private $_order = null;
+
 	/**
 	 * Order ID in Craft Commerce
 	 *
@@ -217,9 +219,12 @@ class Invoice extends Element
 		return true;
 	}
 
-	public function order(): Order
+	public function order(): ?Order
 	{
-		return Order::findOne($this->orderId);
+		if ($this->_order !== null) {
+			return $this->_order;
+		}
+		return $this->_order = Order::findOne($this->orderId);
 	}
 
 	public function getIsCredit(): bool
@@ -295,24 +300,29 @@ class Invoice extends Element
 		return $actions;
 	}
 
+	protected static function addInvoiceNumber(): bool
+	{
+		return version_compare(Craft::$app->getVersion(), '4.0.0', '<');
+	}
+
 	/**
 	 * @inheritdoc
 	 */
 	protected static function defineTableAttributes(): array
 	{
-		$attributes = [
-			'invoiceNumber' => ['label' => Craft::t('commerce-invoices', 'Invoice Number')],
+		$attributes = array_filter([
+			'invoiceNumber' => static::addInvoiceNumber() ? ['label' => Craft::t('commerce-invoices', 'Invoice Number')] : null,
 			'orderId' => ['label' => Craft::t('commerce', 'Order ID')],
 			'id' => ['label' => Craft::t('commerce-invoices', 'Invoice ID')],
 			'dateCreated' => ['label' => Craft::t('commerce-invoices', 'Invoice Date')],
-		];
+		]);
 
 		return $attributes;
 	}
 
 	protected static function defineSearchableAttributes(): array
 	{
-		return ['id', 'orderId', 'invoiceNumber', 'email'];
+		return array_filter(['id', 'orderId', static::addInvoiceNumber() ? 'invoiceNumber' : null, 'email']);
 	}
 
 	protected function tableAttributeHtml(string $attribute): string

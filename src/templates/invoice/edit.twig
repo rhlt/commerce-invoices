@@ -44,7 +44,7 @@
 						<h5 class="heading">{{ invoice.type|capitalize ~ ' number'|t('commerce-invoices') }}</h5>
 						<p class="value">{{ invoice.invoiceNumber }}</p>
 					</div>
-					{% if invoice.orderId %}
+					{% if invoice.order %}
 					<div class="data">
 						<h5 class="heading">{{ 'Order'|t('commerce-invoices') }}</h5>
 						<p class="value"><a href="{{ invoice.order.getCpEditUrl() }}">{{ invoice.orderId }}</a></p>
@@ -95,7 +95,7 @@
 			<strong>{{ 'Billing address'|t('commerce-invoices') }}</strong>
 			<br>
 			{% if invoice.billingAddress %}
-				{% for key in fields if key in invoice.billingAddress.addressLines|keys %}
+				{% for key in fields|filter(key => invoice.billingAddress.addressLines[key] ?? false) %}
 					<br>
 					{% if key in strong %}<strong>{% endif %}
 						{{ invoice.billingAddress.addressLines[key] }}
@@ -109,7 +109,7 @@
 			<strong>{{ 'Shipping address'|t('commerce-invoices') }}</strong>
 			<br>
 			{% if invoice.shippingAddress %}
-				{% for key in fields if key in invoice.shippingAddress.addressLines|keys %}
+				{% for key in fields|filter(key => invoice.shippingAddress.addressLines[key] ?? false) %}
 					<br>
 					{% if key in strong %}<strong>{% endif %}
 					{{ invoice.shippingAddress.addressLines[key] }}
