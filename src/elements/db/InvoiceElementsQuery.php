@@ -21,7 +21,6 @@ class InvoiceElementsQuery extends ElementQuery
 {
 	public $orderId;
 	public $invoiceNumber;
-	public mixed $dateCreated = null;
 	public $type;
 	public $externalId;
 	public $sent;
@@ -50,13 +49,6 @@ class InvoiceElementsQuery extends ElementQuery
 	public function invoiceNumber($value)
 	{
 		$this->invoiceNumber = $value;
-
-		return $this;
-	}
-
-	public function dateCreated(mixed $value): InvoiceElementsQuery
-	{
-		$this->dateCreated = $value;
 
 		return $this;
 	}
