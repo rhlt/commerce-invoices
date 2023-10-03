@@ -16,7 +16,7 @@ use craft\commerce\Plugin as Commerce;
 use lenvanessen\commerce\invoices\CommerceInvoices;
 use lenvanessen\commerce\invoices\elements\Invoice;
 use lenvanessen\commerce\invoices\models\FakePdf;
-use putyourlightson\logtofile\LogToFile;
+// use putyourlightson\logtofile\LogToFile;
 
 /**
 * @author	Len van Essen

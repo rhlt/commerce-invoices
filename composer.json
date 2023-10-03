@@ -21,14 +21,15 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0",
-		"putyourlightson/craft-log-to-file": "^1.0.0"
+        "craftcms/cms": "^3.0|^4.0"
     },
     "require-dev": {
-      "craftcms/cms": "^3.2.0",
+      "craftcms/cms": "^3.0|^4.0",
       "codeception/codeception": "^3.0",
-      "vlucas/phpdotenv": "^3.0",
-      "putyourlightson/craft-log-to-file": "^1.0.0"
+      "vlucas/phpdotenv": "^3.0"
+    },
+    "suggest": {
+        "putyourlightson/craft-log-to-file": "Logging to file in Craft 3.x"
     },
     "autoload": {
         "psr-4": {

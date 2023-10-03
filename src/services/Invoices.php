@@ -15,7 +15,7 @@ use craft\base\Component;
 use craft\commerce\elements\Order;
 use lenvanessen\commerce\invoices\CommerceInvoices;
 use lenvanessen\commerce\invoices\elements\Invoice;
-use putyourlightson\logtofile\LogToFile;
+// use putyourlightson\logtofile\LogToFile;
 
 /**
  * @author	Len van Essen
