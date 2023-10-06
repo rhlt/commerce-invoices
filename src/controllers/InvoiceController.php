@@ -18,7 +18,7 @@ use lenvanessen\commerce\invoices\assetbundles\invoicescpsection\InvoicesCPSecti
 use lenvanessen\commerce\invoices\CommerceInvoices;
 use lenvanessen\commerce\invoices\elements\Invoice;
 use lenvanessen\commerce\invoices\helpers\Stock;
-use lenvanessen\commerce\invoices\models\FakePdf;
+use lenvanessen\commerce\invoices\models\InvoicePdf;
 use lenvanessen\commerce\invoices\records\InvoiceRow;
 use craft\commerce\Plugin as Commerce;
 use yii\web\NotFoundHttpException;
@@ -135,11 +135,12 @@ class InvoiceController extends Controller
 			[
 				'invoice' => $invoice
 			],
-			new FakePdf()
+			new InvoicePdf()
 		);
 
 		return Craft::$app->getResponse()->sendContentAsFile($renderedPdf, $invoice->invoiceNumber . '.pdf', [
-			'mimeType' => 'application/pdf'
+			'mimeType' => 'application/pdf',
+			'inline' => true,
 		]);
 	}
 
