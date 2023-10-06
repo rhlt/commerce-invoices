@@ -56,7 +56,11 @@
 					</div>
 					<div class="data">
 						<h5 class="heading">{{ 'PDF'|t('commerce-invoices') }}</h5>
+						{% if invoice.order %}
 						<p class="value"><a href="{{ invoice.getPdfUrl() }}" target="_blank">{{ 'Download PDF'|t }}</a></p>
+						{% else %}
+						<p class="value">{{ '(niet beschikbaar)'|t }}</p>
+						{% endif %}
 					</div>
 				</div>
 			</div>

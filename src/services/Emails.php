@@ -33,6 +33,9 @@ class Emails
 	 */
 	public function attachInvoiceToMail(MailEvent $event, Invoice $invoice)
 	{
+		if (!$event->order)
+			return;
+		
 		$renderedPdf = Commerce::getInstance()->getPdfs()->renderPdfForOrder(
 			$event->order,
 			'email',

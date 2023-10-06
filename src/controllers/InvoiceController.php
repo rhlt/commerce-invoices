@@ -128,8 +128,13 @@ class InvoiceController extends Controller
 		if (!$pdfPath)
 			throw new NotFoundHttpException('Please set a PDF Template Path in the plugin settings');
 
+		$order = $invoice->order();
+
+		if (!$order)
+			throw new NotFoundHttpException('Order not found');
+		
 		$renderedPdf = Commerce::getInstance()->getPdfs()->renderPdfForOrder(
-			$invoice->order(),
+			$order,
 			'',
 			$pdfPath,
 			[
